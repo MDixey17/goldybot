@@ -16,6 +16,13 @@ const sleep = (ms) => {
     } while (currentDate - date < ms)
 }
 
+const getFormattedDate = (date) => {
+    let dd = String(date.getDate()).padStart(2, '0')
+    let mm = String(date.getMonth() + 1).padStart(2, '0')
+    let yyyy = String(date.getFullYear())
+    return `${mm}-${dd}-${yyyy}`
+}
+
 const getData = async (query, variables) => {
     // Make sure we have valid arguments
     if (query === null || variables === null) {
@@ -110,7 +117,7 @@ const getEventPlacement = async (tournamentName, eventName, entrantName) => {
 const getEventMatches = async (tournamentName, eventName) => {
     const eventId = await getEventId(tournamentName, eventName)
     const numMatches = await getTotalMatches(eventId)
-    const matches = [] // Each item will have the object format {teamOne: String, teamOneScore: Number, teamTwo: String, teamTwoScore: Number}
+    const matches = [] // Each item will have the object format {teamOne: String, teamOneScore: Number, teamTwo: String, teamTwoScore: Number, date: String}
 
     let numMatchesFound = 0
     let pageNumber = 1
@@ -127,10 +134,11 @@ const getEventMatches = async (tournamentName, eventName) => {
             const teamOneScore = response.data.event.sets.nodes[i].slots[0].standing.stats.score.value
             const teamTwoName = response.data.event.sets.nodes[i].slots[1].entrant.name
             const teamTwoScore = response.data.event.sets.nodes[i].slots[1].standing.stats.score.value
+            const date = getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000))
             
             // Check if either score is a -1 --> this means the team didn't show up or was disqualified so we want to ignore this
             if (teamOneScore !== -1 && teamTwoScore !== -1) {
-                matches.push({teamOne: teamOneName, teamOneScore: teamOneScore, teamTwo: teamTwoName, teamTwoScore: teamTwoScore})
+                matches.push({teamOne: teamOneName, teamOneScore: teamOneScore, teamTwo: teamTwoName, teamTwoScore: teamTwoScore, date: date})
             }
         }
 

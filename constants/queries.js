@@ -10,7 +10,7 @@ export const GET_EVENT_PLACEMENT = "query EventStandings($eventId: ID!, $page: I
 
 export const TOTAL_EVENT_MATCHES = "query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) { event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) {pageInfo {total}}}}"
 
-export const GET_EVENT_MATCHES = "query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) {nodes { slots { entrant { name } standing { stats { score { value }}}}}}}}"
+export const GET_EVENT_MATCHES = "query EventSets($eventId: ID!, $page: Int!, $perPage: Int!) {event(id: $eventId) {sets(page: $page perPage: $perPage sortType: STANDARD) {nodes { startedAt slots { entrant { name } standing { stats { score { value }}}}}}}}"
 
 export const GET_EVENT_ROSTERS = "query EventEntrants($eventId: ID!, $page: Int!, $perPage: Int!) {event(id: $eventId) { entrants(query: {page: $page perPage: $perPage}) {nodes {name participants {gamerTag}}}}}"
 
