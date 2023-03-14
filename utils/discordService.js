@@ -1,16 +1,6 @@
 import { EmbedBuilder } from "discord.js"
+import { GREEN_COLOR, RED_COLOR } from "../constants/colors"
 
-/**
- * 
- * @param {(String) A hex value that represents a color} color 
- * @param {(String) The title at the top of the Embed} title 
- * @param {(String) A link that users will go to when they click on the Embed} url 
- * @param {(String) The name of the author} author 
- * @param {(String) Text that will be displayed in the Embed} description 
- * @param {(String) The image path/URL that will be displayed in the Embed as a small image} thumbnail 
- * @param {({name: String, value: String, inline: Boolean}) Up to 25 subsections to the Embed} fields 
- * @returns The resulting Discord Embed object
- */
 const createEmbed = (
     color,
     title,
@@ -45,6 +35,26 @@ const createEmbed = (
     return embed
 }
 
+const getSuccessEmbed = (title, description) => {
+    return createEmbed(GREEN_COLOR, title, null, null, description, null, null)
+}
+
+const getFailedEmbed = (title, description) => {
+    return createEmbed(RED_COLOR, title, null, null, description, null, null)
+}
+
+const getErrorEmbed = () => {
+    return createEmbed(RED_COLOR, `Unexpected Error`, null, null, `An unexpected error has occurred. If this persists, please contact a developer!`, null, null)
+}
+
+const getChannelEmbed = () => {
+    return createEmbed(RED_COLOR, `Wrong Channel`, null, null, `Please use the #goldybot text channel!`, null, null)
+}
+
 export const DiscordService = {
     createEmbed,
+    getSuccessEmbed,
+    getFailedEmbed,
+    getErrorEmbed,
+    getChannelEmbed,
 }

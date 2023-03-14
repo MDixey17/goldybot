@@ -3,6 +3,7 @@
  */
 
 import { CHECK_EVENT_REGISTRATION, GET_EVENT_ID, GET_EVENT_MATCHES, GET_EVENT_PLACEMENT, GET_EVENT_ROSTERS, GET_TOTAL_ENTRANTS, TOTAL_EVENT_MATCHES } from '../constants/queries'
+import { UtilityService } from './utilityService'
 
 const STARTGG_URL = "https://api.start.gg/gql/alpha"
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
@@ -14,13 +15,6 @@ const sleep = (ms) => {
     do {
         currentDate = Date.now()
     } while (currentDate - date < ms)
-}
-
-const getFormattedDate = (date) => {
-    let dd = String(date.getDate()).padStart(2, '0')
-    let mm = String(date.getMonth() + 1).padStart(2, '0')
-    let yyyy = String(date.getFullYear())
-    return `${mm}-${dd}-${yyyy}`
 }
 
 const getData = async (query, variables) => {
@@ -134,7 +128,7 @@ const getEventMatches = async (tournamentName, eventName) => {
             const teamOneScore = response.data.event.sets.nodes[i].slots[0].standing.stats.score.value
             const teamTwoName = response.data.event.sets.nodes[i].slots[1].entrant.name
             const teamTwoScore = response.data.event.sets.nodes[i].slots[1].standing.stats.score.value
-            const date = getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000))
+            const date = UtilityService.getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000))
             
             // Check if either score is a -1 --> this means the team didn't show up or was disqualified so we want to ignore this
             if (teamOneScore !== -1 && teamTwoScore !== -1) {
@@ -168,12 +162,12 @@ const getEventRosters = async (tournamentName, eventName) => {
             const teamName = response.data.event.entrants.nodes[i].name
             const gamerTags = [...new Set(response.data.event.entrants.nodes[i].participants)]
             let playerNumber = 1
-            let p1 = null
-            let p2 = null
-            let p3 = null
-            let p4 = null
-            let p5 = null
-            let p6 = null
+            let p1 = '-'
+            let p2 = '-'
+            let p3 = '-'
+            let p4 = '-'
+            let p5 = '-'
+            let p6 = '-'
 
             gamerTags.forEach(player => {
                 if (playerNumber == 1) {
