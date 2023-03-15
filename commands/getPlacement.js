@@ -2,6 +2,7 @@
  * Slash command to get the final placement of a specified team in a start.gg event
  */
 
+const { SlashCommandBuilder } = require("discord.js");
 const { DiscordService } = require("../utils/discordService")
 const { StartggService } = require("../utils/startggService")
 const { UtilityService } = require("../utils/utilityService")
@@ -34,7 +35,7 @@ module.exports = {
         const officialName = UtilityService.getEventName(eventName)
 
         if (placement) {
-            const embed = DiscordService.getSuccessEmbed(`${teamName}'s Placement`, `${teamName} placed ${placement} in ${officialName}`)
+            const embed = DiscordService.getSuccessEmbed(`${teamName}'s Placement`, `${teamName} placed **${placement}** in ${officialName}`)
             await interaction.editReply({ embeds: [embed] })
         }
         else {

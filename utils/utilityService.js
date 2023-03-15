@@ -35,7 +35,7 @@ const checkDate = (dateInput) => {
 }
 
 const getEventName = (eventSlug) => {
-    const words = eventSlug.split('_')
+    const words = eventSlug.split('-')
     let eventName = ''
     for (let i = 0; i < words.length; i++) {
         eventName += words[i].charAt(0).toUpperCase() + words[i].slice(1) + ' '
@@ -65,15 +65,17 @@ const getTeamDetails = (teamObject) => {
         teamDetails += teamObject.get('player_six') + "\n"
     }
     if (teamObject.get('coach') && teamObject.get('coach') !== '-') {
-        teamDetails += "*Coach:* " + teamObject.get('player_one') + "\n"
+        teamDetails += "*Coach:* " + teamObject.get('coach') + "\n"
     }
 
     return teamDetails
 }
 
-export const UtilityService = {
-    getFormattedDate,
-    checkDate,
-    getEventName,
-    getTeamDetails,
+module.exports = {
+    UtilityService: {
+        getFormattedDate,
+        checkDate,
+        getEventName,
+        getTeamDetails,
+    }
 }

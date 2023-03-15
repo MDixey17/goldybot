@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "discord.js"
-import { GREEN_COLOR, RED_COLOR } from "../constants/colors"
+const { EmbedBuilder } = require('discord.js')
+const { GREEN_COLOR, RED_COLOR } = require("../constants/colors")
 
 const createEmbed = (
     color,
@@ -51,10 +51,12 @@ const getChannelEmbed = () => {
     return createEmbed(RED_COLOR, `Wrong Channel`, null, null, `Please use the #goldybot text channel!`, null, null)
 }
 
-export const DiscordService = {
-    createEmbed,
-    getSuccessEmbed,
-    getFailedEmbed,
-    getErrorEmbed,
-    getChannelEmbed,
+module.exports = {
+    DiscordService: {
+        createEmbed,
+        getSuccessEmbed,
+        getFailedEmbed,
+        getErrorEmbed,
+        getChannelEmbed,
+    }
 }

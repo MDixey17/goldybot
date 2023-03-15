@@ -1,5 +1,6 @@
 // A Slash Command to get the matchup between two teams
 
+const { SlashCommandBuilder } = require("discord.js");
 const { DbService } = require("../utils/dbService")
 const { DiscordService } = require("../utils/discordService")
 const { UtilityService } = require("../utils/utilityService")
@@ -29,7 +30,7 @@ module.exports = {
         if (teamOneRoster && teamTwoRoster && matchHistory) {
             const embed = DiscordService.getSuccessEmbed(`${teamOne} vs ${teamTwo}`, `Matchup History`)
             const teamOneDetails = UtilityService.getTeamDetails(teamOneRoster)
-            const teamTwoDetails = UtilityService.getTeam(teamTwoRoster)
+            const teamTwoDetails = UtilityService.getTeamDetails(teamTwoRoster)
 
             embed.addFields(
                 { name: teamOne, value: teamOneDetails, inline: true },

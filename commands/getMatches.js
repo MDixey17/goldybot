@@ -17,11 +17,11 @@ module.exports = {
         ),
     async execute(interaction) {
         const teamName = interaction.options.getString('team_name')
-        const matches = DbService.getMatches(teamName)
+        const matches = await DbService.getMatches(teamName)
         if (matches) {
             let matchesString = ''
-            for (let i = 0; i < (await matches).length; i++) {
-                matchesString += `${matches.get('team_one')} ${matches.get('team_one_score')} - ${matches.get('team_two')} ${matches.get('team_two_score')}\n${matches.get('event')}\n${matches.get('date')}\n\n`
+            for (let i = 0; i < matches.length; i++) {
+                matchesString += `${matches[i].team_one} ${matches[i].team_one_score} - ${matches[i].team_two} ${matches[i].team_two_score}\n${matches[i].event}\n${matches[i].date}\n\n`
             }
 
             const embed = DiscordService.getSuccessEmbed(`${teamName} Recent Matches`, `${matchesString}`)

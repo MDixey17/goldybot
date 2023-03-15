@@ -2,8 +2,8 @@
  * Contain all the appropriate calls to the start.gg API to retrieve data
  */
 
-import { CHECK_EVENT_REGISTRATION, GET_EVENT_ID, GET_EVENT_MATCHES, GET_EVENT_PLACEMENT, GET_EVENT_ROSTERS, GET_TOTAL_ENTRANTS, TOTAL_EVENT_MATCHES } from '../constants/queries'
-import { UtilityService } from './utilityService'
+const { CHECK_EVENT_REGISTRATION, GET_EVENT_ID, GET_EVENT_MATCHES, GET_EVENT_PLACEMENT, GET_EVENT_ROSTERS, GET_TOTAL_ENTRANTS, TOTAL_EVENT_MATCHES } = require('../constants/queries')
+const { UtilityService } = require('./utilityService')
 
 const STARTGG_URL = "https://api.start.gg/gql/alpha"
 const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args))
@@ -82,7 +82,7 @@ const getEventPlacement = async (tournamentName, eventName, entrantName) => {
 
         if (placementFound) {
             for (let i = 0; i < loopCondition; i++) {
-                if (placement === response.data.event.standings.nodes[i].placement) {
+                if (placement === response.data.event.standings.nodes[i].placement && entrantName !== response.data.event.standings.nodes[i].entrant.name) {
                     numTeamsSharedPlacement += 1
                 }
             }
@@ -128,7 +128,7 @@ const getEventMatches = async (tournamentName, eventName) => {
             const teamOneScore = response.data.event.sets.nodes[i].slots[0].standing.stats.score.value
             const teamTwoName = response.data.event.sets.nodes[i].slots[1].entrant.name
             const teamTwoScore = response.data.event.sets.nodes[i].slots[1].standing.stats.score.value
-            const date = UtilityService.getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000))
+            const date = UtilityService.getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000)) // TODO: Store timestamp to sort by that instead
             
             // Check if either score is a -1 --> this means the team didn't show up or was disqualified so we want to ignore this
             if (teamOneScore !== -1 && teamTwoScore !== -1) {
@@ -220,9 +220,11 @@ const checkEventRegistration = async (tournamentName, eventName, entrantName) =>
     return false
 }
 
-export const StartggService = {
-    getEventPlacement,
-    getEventMatches,
-    getEventRosters,
-    checkEventRegistration,
+module.exports = {
+    StartggService: {
+        getEventPlacement,
+        getEventMatches,
+        getEventRosters,
+        checkEventRegistration,
+    }
 }

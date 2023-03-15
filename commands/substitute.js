@@ -2,6 +2,7 @@
  * Slash command to substitute an old player with a new player for a specified team
  */
 
+const { SlashCommandBuilder } = require("discord.js");
 const { DbService } = require("../utils/dbService")
 const { DiscordService } = require("../utils/discordService")
 

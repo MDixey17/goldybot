@@ -113,18 +113,18 @@ const getTeam = async (teamName) => {
         const aliases = await Teams.findAll({ attributes: ['team_name', 'aliases'] })
         let aliasFound = false
         let storedTeam = null
-        aliases.forEach(alias => {
-            if (alias.aliases && !aliasFound) {
-                const aliasList = alias.aliases.split(',')
-                for (let i = 0; i < aliasList.length; i++) {
-                    if (aliasList[i] === teamName) {
-                        storedTeam = alias
+        for (let i = 0; i < aliases.length; i++) {
+            if (aliases[i].aliases && !aliasFound) {
+                const aliasList = aliases[i].aliases.split(',')
+                for (let j = 0; j < aliasList.length; j++) {
+                    if (aliasList[j] === teamName) {
+                        storedTeam = await Teams.findOne({ where: { team_name: aliases[i].team_name } })
                         aliasFound = true
                         break
                     }
                 }
             }
-        })
+        }
 
         return storedTeam
     }
@@ -134,12 +134,12 @@ const updateTeamEntry = async (teamName, oldPlayer, newPlayer) => {
     await Teams.sync()
     const team = await Teams.findOne({where: {team_name: teamName}})
     if (team) {
-        const p1Changes = await RosterData.update({ player_one: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_one: oldPlayer})})
-        const p2Changes = await RosterData.update({ player_two: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_two: oldPlayer})})
-        const p3Changes = await RosterData.update({ player_three: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_three: oldPlayer})})
-        const p4Changes = await RosterData.update({ player_four: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_four: oldPlayer})})
-        const p5Changes = await RosterData.update({ player_five: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_five: oldPlayer})})
-        const p6Changes = await RosterData.update({ player_six: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_six: oldPlayer})})
+        const p1Changes = await Teams.update({ player_one: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_one: oldPlayer})})
+        const p2Changes = await Teams.update({ player_two: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_two: oldPlayer})})
+        const p3Changes = await Teams.update({ player_three: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_three: oldPlayer})})
+        const p4Changes = await Teams.update({ player_four: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_four: oldPlayer})})
+        const p5Changes = await Teams.update({ player_five: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_five: oldPlayer})})
+        const p6Changes = await Teams.update({ player_six: newPlayer }, { where: Sequelize.and({team_name: teamName}, {player_six: oldPlayer})})
 
         if (p1Changes == 0 && p2Changes == 0 && p3Changes == 0 && p4Changes == 0 && p5Changes == 0 && p6Changes == 0) {
             return false // No Teams were updated
@@ -204,10 +204,10 @@ const removeOutdatedEntries = async () => {
     const today = new Date()
 
     entries.forEach(entry => {
-        const entry = entry.date.split('-');
-        const entryDD = entry[1];
-        const entryMM = entry[0];
-        const entryYYYY = entry[2];
+        const e = entry.date.split('-');
+        const entryDD = e[1];
+        const entryMM = e[0];
+        const entryYYYY = e[2];
         const temp = new Date(entryMM + '/' + entryDD + '/' + entryYYYY);
         const diffTime = Math.abs(today - temp); // This is in milliseconds
         const numDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -262,18 +262,20 @@ const resetTeams = async () => {
     return true
 }
 
-export const DbService = {
-    addMatchEntry,
-    addTeamEntry,
-    getMatches,
-    getMatchupHistory,
-    getTeam,
-    updateTeamEntry,
-    updateTeamAlias,
-    updateTeamCoach,
-    removeLastMatch,
-    removeOutdatedEntries,
-    removeTeamEntry,
-    resetMatches,
-    resetTeams,
+module.exports = {
+    DbService: {
+        addMatchEntry,
+        addTeamEntry,
+        getMatches,
+        getMatchupHistory,
+        getTeam,
+        updateTeamEntry,
+        updateTeamAlias,
+        updateTeamCoach,
+        removeLastMatch,
+        removeOutdatedEntries,
+        removeTeamEntry,
+        resetMatches,
+        resetTeams,
+    }
 }

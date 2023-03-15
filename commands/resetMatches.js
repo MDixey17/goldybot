@@ -2,6 +2,7 @@
  * Slash command to reset the Matches data table
  */
 
+const { SlashCommandBuilder } = require("discord.js");
 const { DbService } = require("../utils/dbService")
 const { DiscordService } = require("../utils/discordService")
 
