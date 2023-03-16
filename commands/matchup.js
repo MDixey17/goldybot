@@ -39,7 +39,7 @@ module.exports = {
 
             for (let i = 0; i < matchHistory.length && i < 18; i++) {
                 embed.addFields(
-                    { name: `${matchHistory[i].get('team_one')} ${matchHistory[i].get('team_one_score')} - ${matchHistory[i].get('team_two_score')} ${matchHistory[i].get('team_two')}`, value: `${matchHistory[i].get('event')}\n${matchHistory[i].get('date')}`, inline: false }
+                    { name: `${matchHistory[i].get('team_one')} ${matchHistory[i].get('team_one_score')} - ${matchHistory[i].get('team_two_score')} ${matchHistory[i].get('team_two')}`, value: `${matchHistory[i].get('event')}\n${UtilityService.getFormattedDate(new Date(matchHistory[i].get('date')))}`, inline: false }
                 )
             }
 

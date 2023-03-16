@@ -128,7 +128,7 @@ const getEventMatches = async (tournamentName, eventName) => {
             const teamOneScore = response.data.event.sets.nodes[i].slots[0].standing.stats.score.value
             const teamTwoName = response.data.event.sets.nodes[i].slots[1].entrant.name
             const teamTwoScore = response.data.event.sets.nodes[i].slots[1].standing.stats.score.value
-            const date = UtilityService.getFormattedDate(new Date(response.data.event.sets.nodes[i].startedAt * 1000)) // TODO: Store timestamp to sort by that instead
+            const date = new Date(response.data.event.sets.nodes[i].startedAt * 1000)
             
             // Check if either score is a -1 --> this means the team didn't show up or was disqualified so we want to ignore this
             if (teamOneScore !== -1 && teamTwoScore !== -1) {

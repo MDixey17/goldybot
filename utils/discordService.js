@@ -1,5 +1,5 @@
 const { EmbedBuilder } = require('discord.js')
-const { GREEN_COLOR, RED_COLOR } = require("../constants/colors")
+const { GREEN_COLOR, RED_COLOR, YELLOW_COLOR } = require("../constants/colors")
 
 const createEmbed = (
     color,
@@ -51,6 +51,14 @@ const getChannelEmbed = () => {
     return createEmbed(RED_COLOR, `Wrong Channel`, null, null, `Please use the #goldybot text channel!`, null, null)
 }
 
+const getStartggEmbed = () => {
+    return createEmbed(RED_COLOR, `start.gg API Failure`, null, null, `The start.gg API failed to retrieve and send back the requested data. Please wait before trying again!`, null, null)
+}
+
+const getNoDataEmbed = () => {
+    return createEmbed(YELLOW_COLOR, `No Data Found`, null, null, `No data was found with that command!`, null, null)
+}
+
 module.exports = {
     DiscordService: {
         createEmbed,
@@ -58,5 +66,7 @@ module.exports = {
         getFailedEmbed,
         getErrorEmbed,
         getChannelEmbed,
+        getStartggEmbed,
+        getNoDataEmbed,
     }
 }

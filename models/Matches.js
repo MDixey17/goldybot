@@ -18,7 +18,8 @@ module.exports = {
         type: Sequelize.INTEGER,
     },
     date: {
-        type: Sequelize.STRING,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
     },
     event: {
         type: Sequelize.STRING,

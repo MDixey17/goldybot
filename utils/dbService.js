@@ -49,7 +49,7 @@ const addMatchEntry = async (match, eventName) => {
             team_one_score: match.teamOneScore,
             team_two: match.teamTwo,
             team_two_score: match.teamTwoScore,
-            date: match.date,
+            date: match.date ?? new Date(),
             event: eventName
         })
         return true
@@ -92,13 +92,13 @@ const addTeamEntry = async (team) => {
 
 const getMatches = async (teamName) => {
     await Matches.sync()
-    const matches = await Matches.findAll({where: Sequelize.or({team_one: teamName}, {team_two: teamName})})
+    const matches = await Matches.findAll({where: Sequelize.or({team_one: teamName}, {team_two: teamName}), order: [['date', 'DESC']]})
     return matches
 }
 
 const getMatchupHistory = async (teamOne, teamTwo) => {
     await Matches.sync()
-    const matches = await Matches.findAll({where: Sequelize.or(Sequelize.and({team_one: teamOne}, {team_two: teamTwo}), Sequelize.and({team_one: teamTwo}, {team_two: teamOne}))})
+    const matches = await Matches.findAll({where: Sequelize.or(Sequelize.and({team_one: teamOne}, {team_two: teamTwo}), Sequelize.and({team_one: teamTwo}, {team_two: teamOne})), order: [['date', 'DESC']]})
     return matches
 }
 
@@ -199,31 +199,27 @@ const removeLastMatch = async (teamName) => {
 
 const removeOutdatedEntries = async () => {
     await Matches.sync()
-    const entries = await Matches.findAll({ attributes: ['date'] })
+    const entries = await Matches.findAll({ attributes: ['id', 'date'] })
     const entriesToDelete = []
     const today = new Date()
 
     entries.forEach(entry => {
-        const e = entry.date.split('-');
-        const entryDD = e[1];
-        const entryMM = e[0];
-        const entryYYYY = e[2];
-        const temp = new Date(entryMM + '/' + entryDD + '/' + entryYYYY);
-        const diffTime = Math.abs(today - temp); // This is in milliseconds
+        const entryDate = new Date(entry.date)
+        const diffTime = Math.abs(today - entryDate);
         const numDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
         if (numDays >= 60) {
-            matchesToDelete.push(e.date);
+            entriesToDelete.push(entry.id);
         }
     })
 
     let deleteCount = 0
     for (let i = 0; i < entriesToDelete.length; i++) {
-        deleteCount += (await Matches.destroy({ where: { date: entriesToDelete[i] } }))
+        deleteCount += (await Matches.destroy({ where: { id: entriesToDelete[i] } }))
     }
     console.log('Matches Deleted: ', deleteCount)
 
     await Teams.sync()
-    const teams = await Teams.findAll({ attributes: ['createdAt'] })
+    const teams = await Teams.findAll({ attributes: ['id', 'createdAt'] })
     const rostersToDelete = []
     teams.forEach(team => {
         let t = new Date(team.createdAt);

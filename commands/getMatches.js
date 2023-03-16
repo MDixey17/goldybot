@@ -5,6 +5,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 const { DbService } = require("../utils/dbService");
 const { DiscordService } = require("../utils/discordService");
+const { UtilityService } = require("../utils/utilityService");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,9 +20,15 @@ module.exports = {
         const teamName = interaction.options.getString('team_name')
         const matches = await DbService.getMatches(teamName)
         if (matches) {
+            if (matches.length === 0) {
+                const embed = DiscordService.getNoDataEmbed()
+                await interaction.editReply({ embeds: [embed] })
+                return
+            }
+
             let matchesString = ''
             for (let i = 0; i < matches.length; i++) {
-                matchesString += `${matches[i].team_one} ${matches[i].team_one_score} - ${matches[i].team_two} ${matches[i].team_two_score}\n${matches[i].event}\n${matches[i].date}\n\n`
+                matchesString += `${matches[i].team_one} ${matches[i].team_one_score} - ${matches[i].team_two_score} ${matches[i].team_two}\n${matches[i].event}\n${UtilityService.getFormattedDate(new Date(matches[i].date))}\n\n`
             }
 
             const embed = DiscordService.getSuccessEmbed(`${teamName} Recent Matches`, `${matchesString}`)

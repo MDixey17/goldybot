@@ -54,8 +54,14 @@ client.on(Events.InteractionCreate, async interaction => {
         await command.execute(interaction)
     } catch (err) {
         console.log(err)
-        const errorEmbed = DiscordService.getErrorEmbed()
-        await interaction.editReply({ embeds: [errorEmbed] })
+        if (err instanceof SyntaxError && err.message.includes('Unexpected token < in JSON at position')) {
+            const startggErrorEmbed = DiscordService.getStartggEmbed()
+            await interaction.editReply({ embeds: [startggErrorEmbed] })
+        }
+        else {
+            const errorEmbed = DiscordService.getErrorEmbed()
+            await interaction.editReply({ embeds: [errorEmbed] })
+        }
     }
 })
 

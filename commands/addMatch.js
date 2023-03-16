@@ -47,7 +47,7 @@ module.exports = {
         const teamTwo = interaction.options.getString('team_two')
         const teamTwoScore = interaction.options.getInteger('team_two_score')
         const eventName = interaction.options.getString('event')
-        let dateInput
+        let dateInput = null
         if (interaction.options.getString('date')) {
             dateInput = interaction.options.getString('date')
             if (!UtilityService.checkDate(dateInput)) {
@@ -55,9 +55,6 @@ module.exports = {
                 await interaction.editReply({ embeds: [badInputEmbed] })
                 return
             }
-        }
-        else {
-            dateInput = UtilityService.getFormattedDate(new Date())
         }
 
         if (await DbService.addMatchEntry({teamOne: teamOne, teamOneScore: teamOneScore, teamTwo: teamTwo, teamTwoScore: teamTwoScore, date: dateInput}, eventName)) {
