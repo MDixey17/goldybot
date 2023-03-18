@@ -1,5 +1,6 @@
 const { EmbedBuilder } = require('discord.js')
 const { GREEN_COLOR, RED_COLOR, YELLOW_COLOR } = require("../constants/colors")
+require('dotenv').config()
 
 const createEmbed = (
     color,
@@ -59,6 +60,27 @@ const getNoDataEmbed = () => {
     return createEmbed(YELLOW_COLOR, `No Data Found`, null, null, `No data was found with that command!`, null, null)
 }
 
+const getNoPermissionEmbed = () => {
+    return createEmbed(RED_COLOR, `Permission Denied`, null, null, `You do not have permission to execute this command!`, null, null)
+}
+
+/** 
+ * IMPORTANT: This function is to check if a user is in a secret Discord server with a specific role!
+ * Returning false from here implies the user does NOT have "write" access to the database and can only
+ * execute "read" commands
+ */
+const checkPermission = (interaction) => {
+    if (interaction.guildId === process.env.SECRET_GUILD_ID) {
+        // User is in the server, but do they have the role
+        if (interaction.member.roles.cache.some(role => role.name === "GoldyBot Master")) {
+            // User does have permission to execute the command
+            return true
+        }
+    }
+
+    return false // User does not have permission
+}
+
 module.exports = {
     DiscordService: {
         createEmbed,
@@ -68,5 +90,7 @@ module.exports = {
         getChannelEmbed,
         getStartggEmbed,
         getNoDataEmbed,
+        getNoPermissionEmbed,
+        checkPermission
     }
 }

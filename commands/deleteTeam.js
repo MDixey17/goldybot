@@ -16,6 +16,12 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        if (!DiscordService.checkPermission(interaction)) {
+            const embed = DiscordService.getNoPermissionEmbed()
+            await interaction.editReply({ embeds: [embed] })
+            return
+        }
+        
         const teamName = interaction.options.getString('team_name')
         if (await DbService.removeTeamEntry(teamName)) {
             const embed = DiscordService.getSuccessEmbed(`Successfully Deleted Team`, `Successfully deleted all of ${teamName}'s team information!`)

@@ -32,7 +32,7 @@ module.exports = {
     
         async execute(interaction) {
             const playerName = interaction.options.getString('player_name')
-            const bcGroupId = interaction.options.getString('ballchasing_link').split('/').at(-1)
+            const bcGroupId = interaction.options.getString('ballchasing_link').split('/').at(-1).split('?').at(0)
             const statsFlag = interaction.options.getString('flag') ?? 'general'
 
             // Get the data depending on the statsFlag

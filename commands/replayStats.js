@@ -32,7 +32,7 @@ module.exports = {
     
         async execute(interaction) {
             const playerName = interaction.options.getString('player_name')
-            const bcReplayId = interaction.options.getString('ballchasing_link').split('/').at(-1)
+            const bcReplayId = interaction.options.getString('ballchasing_link').split('/').at(-1).split('?').at(0)
             const statsFlag = interaction.options.getString('flag') ?? 'general'
 
             const data = await BallchasingService.getBallchasingData(statsFlag, bcReplayId, playerName, false)

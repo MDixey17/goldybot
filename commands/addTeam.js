@@ -56,6 +56,12 @@ module.exports = {
                 .setRequired(false)
         ),
         async execute(interaction) {
+            if (!DiscordService.checkPermission(interaction)) {
+                const embed = DiscordService.getNoPermissionEmbed()
+                await interaction.editReply({ embeds: [embed] })
+                return
+            }
+            
             const teamName = interaction.options.getString('team_name')
             const p1 = interaction.options.getString('player_one')
             const p2 = interaction.options.getString('player_two')

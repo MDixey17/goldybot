@@ -21,6 +21,12 @@ module.exports = {
                 .setRequired(true)
             ),
     async execute(interaction) {
+        if (!DiscordService.checkPermission(interaction)) {
+            const embed = DiscordService.getNoPermissionEmbed()
+            await interaction.editReply({ embeds: [embed] })
+            return
+        }
+        
         const teamName = interaction.options.getString('team_name')
         const alias = interaction.options.getString('alias')
         if (await DbService.updateTeamAlias(teamName, alias)) {

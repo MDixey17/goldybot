@@ -26,6 +26,12 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute(interaction) {
+        if (!DiscordService.checkPermission(interaction)) {
+            const embed = DiscordService.getNoPermissionEmbed()
+            await interaction.editReply({ embeds: [embed] })
+            return
+        }
+        
         const teamName = interaction.options.getString('team_name')
         const oldPlayer = interaction.options.getString('old_player')
         const newPlayer = interaction.options.getString('new_player')

@@ -23,6 +23,12 @@ module.exports = {
                 .setRequired(true)
         ),
         async execute(interaction) {
+            if (!DiscordService.checkPermission(interaction)) {
+                const embed = DiscordService.getNoPermissionEmbed()
+                await interaction.editReply({ embeds: [embed] })
+                return
+            }
+            
             const tournamentName = interaction.options.getString('tournament_name')
             const eventName = interaction.options.getString('event_name')
             const storedName = UtilityService.getEventName(eventName)
