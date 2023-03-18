@@ -1,11 +1,11 @@
 # GoldyBot - The Rocket League Utility Discord Bot
 
 ## Table of Contents
-[Contributors](#contributors)
-[Summary](#summary)
-[Commands](#commands)
-[Support](#support)
-[Developers - How to set up locally](#developers---how-to-set-up-locally)
+- [Contributors](#contributors)
+- [Summary](#summary)
+- [Commands](#commands)
+- [Support](#support)
+- [Developers - How to set up locally](#developers---how-to-set-up-locally)
 
 ## Contributors
 - Matt Dixey AKA TitanHawk17#4522 (Lead Developer & Project Manager)
