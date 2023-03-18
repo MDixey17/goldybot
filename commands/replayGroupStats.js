@@ -37,19 +37,20 @@ module.exports = {
 
             // Get the data depending on the statsFlag
             const data = await BallchasingService.getBallchasingData(statsFlag, bcGroupId, playerName, true)
+            const groupName = await BallchasingService.getBallchasingName(bcGroupId, true)
             let embed
             
             if (data) {
                 if (statsFlag === 'general') {
-                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group Stats`, UtilityService.parseGeneralStats(data, true))
+                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group *General* Stats`, `*${groupName}*\n` + UtilityService.parseGeneralStats(data, true))
                 } else if (statsFlag === 'core') {
-                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group Stats`, UtilityService.parseCoreStats(data, true))
+                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group *Core* Stats`, `*${groupName}*\n` + UtilityService.parseCoreStats(data, true))
                 } else if (statsFlag === 'boost') {
-                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group Stats`, UtilityService.parseBoostStats(data, true))
+                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group *Boost* Stats`, `*${groupName}*\n` + UtilityService.parseBoostStats(data, true))
                 } else if (statsFlag === 'movement') {
-                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group Stats`, UtilityService.parseMovementStats(data, true))
+                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group *Movement* Stats`, `*${groupName}*\n` + UtilityService.parseMovementStats(data, true))
                 } else {
-                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group Stats`, UtilityService.parsePositioningStats(data, true))
+                    embed = DiscordService.getSuccessEmbed(`${playerName}'s Replay Group *Positioning* Stats`, `*${groupName}*\n` + UtilityService.parsePositioningStats(data, true))
                 }
             }
             else {

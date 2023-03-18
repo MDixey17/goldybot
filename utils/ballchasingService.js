@@ -30,7 +30,7 @@ const getPlayerReplayGeneralStats = async (replayId, playerName) => {
         console.log('No data received from Ballchasing API! Exiting...')
         return
     }
-
+    
     // Check blue team
     for (let i = 0; i < response.blue.players.length; i++) {
         if (response.blue.players[i].name === playerName) {
@@ -205,14 +205,14 @@ const getPlayerGroupGeneralStats = async (groupId, playerName) => {
     }
 
     // Check blue team
-    for (let i = 0; i < response.blue.players.length; i++) {
-        if (response.blue.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            const coreStats = response.blue.players[i].game_average.core
-            const boostStats = response.blue.players[i].game_average.boost
-            const movementStats = response.blue.players[i].game_average.movement
-            const positioningStats = response.blue.players[i].game_average.positioning
-            const demoStats = response.blue.players[i].game_average.demo
+            const coreStats = response.players[i].game_average.core
+            const boostStats = response.players[i].game_average.boost
+            const movementStats = response.players[i].game_average.movement
+            const positioningStats = response.players[i].game_average.positioning
+            const demoStats = response.players[i].game_average.demo
             
             return {
                 goals: coreStats.goals,
@@ -232,14 +232,14 @@ const getPlayerGroupGeneralStats = async (groupId, playerName) => {
     }
 
     // Check orange team (this will only happen if we haven't found the player yet)
-    for (let i = 0; i < response.orange.players.length; i++) {
-        if (response.orange.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            const coreStats = response.orange.players[i].game_average.core
-            const boostStats = response.orange.players[i].game_average.boost
-            const movementStats = response.orange.players[i].game_average.movement
-            const positioningStats = response.orange.players[i].game_average.positioning
-            const demoStats = response.orange.players[i].game_average.demo
+            const coreStats = response.players[i].game_average.core
+            const boostStats = response.players[i].game_average.boost
+            const movementStats = response.players[i].game_average.movement
+            const positioningStats = response.players[i].game_average.positioning
+            const demoStats = response.players[i].game_average.demo
             
             return {
                 goals: coreStats.goals,
@@ -269,18 +269,18 @@ const getPlayerGroupCoreStats = async (groupId, playerName) => {
     }
 
     // Check blue team
-    for (let i = 0; i < response.blue.players.length; i++) {
-        if (response.blue.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.blue.players[i].game_average.core
+            return response.players[i].game_average.core
         }
     }
 
     // Check orange team (this will only happen if we haven't found the player yet)
-    for (let i = 0; i < response.orange.players.length; i++) {
-        if (response.orange.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.orange.players[i].game_average.core
+            return response.players[i].game_average.core
         }
     }
 
@@ -295,18 +295,18 @@ const getPlayerGroupBoostStats = async (groupId, playerName) => {
     }
 
     // Check blue team
-    for (let i = 0; i < response.blue.players.length; i++) {
-        if (response.blue.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.blue.players[i].game_average.boost
+            return response.players[i].game_average.boost
         }
     }
 
     // Check orange team (this will only happen if we haven't found the player yet)
-    for (let i = 0; i < response.orange.players.length; i++) {
-        if (response.orange.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.orange.players[i].game_average.boost
+            return response.players[i].game_average.boost
         }
     }
 
@@ -321,18 +321,18 @@ const getPlayerGroupMovementStats = async (groupId, playerName) => {
     }
 
     // Check blue team
-    for (let i = 0; i < response.blue.players.length; i++) {
-        if (response.blue.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.blue.players[i].game_average.movement
+            return response.players[i].game_average.movement
         }
     }
 
     // Check orange team (this will only happen if we haven't found the player yet)
-    for (let i = 0; i < response.orange.players.length; i++) {
-        if (response.orange.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.orange.players[i].game_average.movement
+            return response.players[i].game_average.movement
         }
     }
 
@@ -347,18 +347,18 @@ const getPlayerGroupPositioningStats = async (groupId, playerName) => {
     }
 
     // Check blue team
-    for (let i = 0; i < response.blue.players.length; i++) {
-        if (response.blue.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.blue.players[i].game_average.positioning
+            return response.players[i].game_average.positioning
         }
     }
 
     // Check orange team (this will only happen if we haven't found the player yet)
-    for (let i = 0; i < response.orange.players.length; i++) {
-        if (response.orange.players[i].name === playerName) {
+    for (let i = 0; i < response.players.length; i++) {
+        if (response.players[i].name === playerName) {
             // We found the player, so return the data
-            return response.orange.players[i].game_average.positioning
+            return response.players[i].game_average.positioning
         }
     }
 
@@ -369,7 +369,7 @@ const getPlayerGroupPositioningStats = async (groupId, playerName) => {
 // Export a function that gets the data for us and returns it
 const getBallchasingData = async (flag, id, playerName, isGroup) => {
     // First, determine if SINGLE or GROUP
-    if (isGroup) {
+    if (!isGroup) {
         if (flag === 'general') {
             return await getPlayerReplayGeneralStats(id, playerName)
         } else if (flag === 'core') {
@@ -399,8 +399,24 @@ const getBallchasingData = async (flag, id, playerName, isGroup) => {
     }
 }
 
+const getBallchasingName = async (id, isGroup) => {
+    let name = ''
+    
+    if (isGroup) {
+        const response = await getData(BALLCHASING_GROUP_URL + id)
+        name = response.name
+    }
+    else {
+        const response = await getData(BALLCHASING_REPLAY_URL + id)
+        name = response.title
+    }
+
+    return name
+}
+
 module.exports = {
     BallchasingService: {
-        getBallchasingData
+        getBallchasingData,
+        getBallchasingName
     }
 }

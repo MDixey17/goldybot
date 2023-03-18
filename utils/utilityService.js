@@ -139,16 +139,16 @@ const parseBoostStats = (boostObject, isGroup) => {
     if (isGroup) {
         stringData += `**Average Boost Per Minute:** ${boostObject.bpm}\n\n`
         stringData += `**Average Boost Amount Per Game:** ${boostObject.avg_amount}\n\n`
-        stringData += `**Average # of Full Boosts Collected Per Game:** ${boostObject.amount_collected_big}\n\n`
-        stringData += `**Average # of Pads Collected Per Game:** ${boostObject.amount_collected_small}\n\n`
+        stringData += `**Average # of Full Boosts Collected Per Game:** ${Number(boostObject.amount_collected_big) / 100}\n\n`
+        stringData += `**Average # of Pads Collected Per Game:** ${Number(boostObject.amount_collected_small) / 12}\n\n`
         stringData += `**Average Time at Zero Boost:** ${boostObject.time_zero_boost} seconds\n\n`
         stringData += `**Average Time at Full Boost:** ${boostObject.time_full_boost} seconds`
     }
     else {
         stringData += `**Boost Per Minute:** ${boostObject.bpm}\n\n`
         stringData += `**Average Boost Amount:** ${boostObject.avg_amount}\n\n`
-        stringData += `**# of Full Boosts Collected:** ${boostObject.amount_collected_big}\n\n`
-        stringData += `**# of Pads Collected:** ${boostObject.amount_collected_small}\n\n`
+        stringData += `**# of Full Boosts Collected:** ${Number(boostObject.amount_collected_big) / 100}\n\n`
+        stringData += `**# of Pads Collected:** ${Number(boostObject.amount_collected_small) / 12}\n\n`
         stringData += `**Time at Zero Boost:** ${boostObject.time_zero_boost} seconds\n\n`
         stringData += `**Time at Full Boost:** ${boostObject.time_full_boost} seconds`
     }
