@@ -78,12 +78,13 @@ const addTeamEntry = async (team) => {
             return true
         } catch (err) {
             if (err.name === 'SequelizeUniqueConstraintError') {
-                console.log(`ERROR: Team with name ${team.teamName} already exists`)
+                console.log(`ERROR: Team with name ${team.teamName} already exists! Added as alias!`)
+                return true
             }
             else {
-                console.log(`ERROR: An unknown error has occurred!\n`, err)           
+                console.log(`ERROR: An unknown error has occurred!\n`, err)
+                return false           
             }
-            return false
         }
     }
 
