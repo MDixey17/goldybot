@@ -27,7 +27,7 @@ module.exports = {
             }
 
             let matchesString = ''
-            for (let i = 0; i < matches.length; i++) {
+            for (let i = 0; i < matches.length && matchesString.length < 4000; i++) {
                 matchesString += `${matches[i].team_one} ${matches[i].team_one_score} - ${matches[i].team_two_score} ${matches[i].team_two}\n${matches[i].event}\n${UtilityService.getFormattedDate(new Date(matches[i].date))}\n\n`
             }
 
