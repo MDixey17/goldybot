@@ -93,7 +93,23 @@ const addTeamEntry = async (team) => {
 
 const getMatches = async (teamName) => {
     await Matches.sync()
-    const matches = await Matches.findAll({where: Sequelize.or({team_one: teamName}, {team_two: teamName}), order: [['date', 'DESC']]})
+    let matches = await Matches.findAll({where: Sequelize.or({team_one: teamName}, {team_two: teamName}), order: [['date', 'DESC']]})
+    if (matches.length === 0) {
+        // Check the aliases
+        const team = await getTeam(teamName)
+        if (team) {
+            matches = await Matches.findAll({where: Sequelize.or({team_one: team.team_name}, {team_two: team.team_name}), order: [['date', 'DESC']]})
+            // Rename the found matches to have the inputted team name
+            for (let i = 0; i < matches.length; i++) {
+                if (matches[i].team_one === team.team_name) {
+                    matches[i].team_one = teamName
+                }
+                if (matches[i].team_two === team.team_name) {
+                    matches[i].team_two = teamName
+                }
+            }
+        }
+    }
     return matches
 }
 
